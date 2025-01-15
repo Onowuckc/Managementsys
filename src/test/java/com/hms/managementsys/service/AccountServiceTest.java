@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
@@ -58,5 +59,33 @@ public class AccountServiceTest {
         doNothing().when(accountRepository).deleteById(accountId);
         accountService.deleteAccount(accountId);
         verify(accountRepository, times(1)).deleteById(accountId);
+    }
+
+    @Test
+    public void testUpdateAccount() {
+        Long accountId = 1L;
+        Account existingAccount = new Account();
+        existingAccount.setAccountId(accountId);
+        existingAccount.setType("Savings");
+        existingAccount.setBalance(1000.0);
+
+        when(accountRepository.existsById(accountId)).thenReturn(true);
+        when(accountRepository.save(any(Account.class))).thenReturn(existingAccount);
+
+        Account updatedAccount = accountService.updateAccount(accountId, existingAccount);
+        assertEquals("Savings", updatedAccount.getType());
+    }
+
+    @Test
+    public void testUpdateAccountNotFound() {
+        Long accountId = 1L;
+        Account account = new Account();
+        account.setType("Savings");
+        account.setBalance(1000.0);
+
+        when(accountRepository.existsById(accountId)).thenReturn(false);
+
+        Account updatedAccount = accountService.updateAccount(accountId, account);
+        assertNull(updatedAccount);
     }
 }

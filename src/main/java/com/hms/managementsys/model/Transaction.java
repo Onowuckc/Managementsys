@@ -12,6 +12,7 @@ public class Transaction {
     private String type; // Deposit, Withdrawal, Transfer
     private double amount;
     private LocalDateTime timestamp;
+    private String purpose; // Purpose of the transaction (e.g., School Fees)
 
     // Getters and Setters
     public Long getTransactionId() {
@@ -44,5 +45,13 @@ public class Transaction {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 }

@@ -25,7 +25,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public void createTransaction(@RequestBody Transaction transaction) {
+    public void processPayment(@RequestBody Transaction transaction) {
         transactionService.createTransaction(transaction);
     }
 

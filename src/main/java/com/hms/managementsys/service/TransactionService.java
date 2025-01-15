@@ -5,37 +5,38 @@ import com.hms.managementsys.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TransactionService {
     @Autowired
-    private TransactionRepository transactionRepository; // Declare the repository
+    private TransactionRepository transactionRepository;
 
     public List<Transaction> getAllTransactions() {
-        // Logic to retrieve all transactions
-        return new ArrayList<>(); // Placeholder return statement
+        return transactionRepository.findAll();
     }
 
     public Transaction getTransactionById(Long transactionId) {
-        // Logic to retrieve a transaction by ID
-        return new Transaction(); // Placeholder return statement
+        return transactionRepository.findById(transactionId).orElse(null);
     }
 
     public Transaction createTransaction(Transaction transaction) {
-        // Logic to create a new transaction
-        transactionRepository.save(transaction); // Save the transaction
-        return transaction; // Return the created transaction
+        transactionRepository.save(transaction);
+        return transaction;
+    }
+
+    public Transaction processPayment(Transaction transaction) {
+        transaction.setType("Payment"); // Set the transaction type
+        // Additional logic for processing payment can be added here
+        return createTransaction(transaction); // Save the transaction
     }
 
     public Transaction updateTransaction(Long transactionId, Transaction transaction) {
-        // Logic to update an existing transaction
-        transactionRepository.save(transaction); // Save the updated transaction
-        return transaction; // Return the updated transaction
+        transactionRepository.save(transaction);
+        return transaction;
     }
 
     public void deleteTransaction(Long transactionId) {
-        // Logic to delete a transaction
+        transactionRepository.deleteById(transactionId);
     }
 }
